@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="moon_forest.svg">images/moon_forest.svg</file>
+        <file alias="avatar_villager.svg">images/avatar_villager.svg</file>
+    </qresource>
+    <qresource prefix="/styles">
+        <file alias="mobile_theme.qss">styles/mobile_theme.qss</file>
+    </qresource>
+</RCC>

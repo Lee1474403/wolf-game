@@ -1,0 +1,17 @@
+.git
+.agents
+.codex
+**/build*
+**/deploy
+**/*.o
+**/*.obj
+**/*.moc
+**/moc_*.cpp
+**/.qmake.stash
+**/CMakeFiles
+**/CMakeCache.txt
+client/third_party
+artifacts
+data
+*.user
+*.log

@@ -1,0 +1,31 @@
+# Local configuration and runtime output
+.env
+artifacts/
+data/
+*.log
+
+# CMake / qmake / Android build output
+server/build*/
+client/build*/
+**/CMakeFiles/
+**/CMakeCache.txt
+**/.qmake.stash
+**/Makefile*
+**/*.o
+**/*.obj
+**/*.moc
+**/moc_*.cpp
+
+# IDE-local files
+*.user
+.idea/
+.qtcreator/
+.agents/
+.git.invalid-backup/
+*.tar.gz
+*.jks
+*.keystore
+*.pem
+*.key
+client/third_party/
+client/deploy/

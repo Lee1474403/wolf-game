@@ -1,0 +1,44 @@
+services:
+  server:
+    image: wolf-game-server:2.0
+    build:
+      context: .
+      dockerfile: docker/server/Dockerfile
+    restart: unless-stopped
+    environment:
+      GAME_PORT: ${GAME_PORT:-8888}
+      GAME_BACKLOG: ${GAME_BACKLOG:-128}
+      GAME_MAX_CONNECTIONS: ${GAME_MAX_CONNECTIONS:-1024}
+      GAME_MAX_ROOMS: ${GAME_MAX_ROOMS:-0}
+      GAME_PHASE_SECONDS: ${GAME_PHASE_SECONDS:-60}
+      GAME_DISCUSSION_SECONDS: ${GAME_DISCUSSION_SECONDS:-60}
+      GAME_READY_TIMEOUT_SECONDS: ${GAME_READY_TIMEOUT_SECONDS:-300}
+      GAME_LOG_FILE: /var/log/werewolf/server.log
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "${GAME_PORT:-8888}:${GAME_PORT:-8888}/tcp"
+    volumes:
+      - wolf-game-logs:/var/log/werewolf
+    stop_grace_period: 10s
+
+  android-builder:
+    profiles: ["android"]
+    build:
+      context: .
+      dockerfile: docker/android_builder/Dockerfile
+      args:
+        QT_VERSION: ${QT_VERSION:-6.10.2}
+    environment:
+      PROJECT_DIR: /workspace/client
+      OUTPUT_DIR: /workspace/output
+      ANDROID_KEYSTORE: ${ANDROID_KEYSTORE:-}
+      ANDROID_KEY_ALIAS: ${ANDROID_KEY_ALIAS:-androiddebugkey}
+      ANDROID_STORE_PASSWORD: ${ANDROID_STORE_PASSWORD:-android}
+      ANDROID_KEY_PASSWORD: ${ANDROID_KEY_PASSWORD:-android}
+    volumes:
+      - ./client:/workspace/client:ro
+      - ./artifacts:/workspace/output
+      - ${ANDROID_KEYSTORE_HOST_DIR:-./docker/android_builder/keystore}:/workspace/keystore:ro
+
+volumes:
+  wolf-game-logs:

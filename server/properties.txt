@@ -1,0 +1,46 @@
+{
+    "configurations": [
+        {
+            "name": "WSL-GCC",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/**",
+                "/usr/local/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++", 
+            "cStandard": "c11",
+            "cppStandard": "c++17", 
+            "intelliSenseMode": "linux-gcc-x64", 
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}
+
+
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            // 1. 修改为 MSVC 的路径（与你 CMake 日志一致）
+            "compilerPath": "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe", 
+            "cStandard": "c17",
+            // 2. 提升标准到 C++17
+            "cppStandard": "c++17", 
+            // 3. 模式改为 msvc-x64
+            "intelliSenseMode": "windows-msvc-x64", 
+            // 4. 强制关联 CMake Tools 插件
+            "configurationProvider": "ms-vscode.cmake-tools" 
+        }
+    ],
+    "version": 4
+}

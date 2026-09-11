@@ -1,0 +1,314 @@
+/* 月夜议会：雾蓝月夜 + 暖金房主标记。所有交互控件最小高度 48px。 */
+QWidget {
+    color: #DDE8F0;
+    background-color: #08111C;
+    font-family: "Noto Sans CJK SC", "Microsoft YaHei UI", sans-serif;
+    font-size: 14px;
+}
+
+QMainWindow, QWidget#joinPage, QWidget#gamePage, QWidget#gameContent,
+QWidget#playerGrid, QStackedWidget#appPages {
+    background-color: #08111C;
+}
+
+QScrollArea#gameScroll, QScrollArea#gameScroll > QWidget > QWidget {
+    background: transparent;
+    border: none;
+}
+
+QFrame#joinHero {
+    background-color: #0D1B2A;
+    border: 1px solid rgba(169, 199, 217, 42);
+    border-radius: 26px;
+}
+
+QLabel#moonSignature {
+    color: #D9B978;
+    background: transparent;
+    font-size: 50px;
+    font-weight: 300;
+}
+
+QLabel#joinTitle {
+    color: #F4F7F9;
+    background: transparent;
+    font-size: 28px;
+    font-weight: 750;
+    letter-spacing: 4px;
+}
+
+QLabel#joinSubtitle, QLabel#joinFootnote {
+    color: #8FA5B5;
+    background: transparent;
+    font-size: 13px;
+}
+
+QFrame#formCard, QFrame#roomCard, QFrame#roleCard, QFrame#seatCard,
+QFrame#eventCard, QFrame#resultCard, QFrame#actionDock {
+    background-color: #0D1B2A;
+    border: 1px solid rgba(169, 199, 217, 34);
+    border-radius: 18px;
+}
+
+QFrame#phaseCard {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                                stop:0 #122638, stop:1 #17283A);
+    border: 1px solid rgba(217, 185, 120, 76);
+    border-radius: 20px;
+}
+
+QFrame#resultCard {
+    border-color: rgba(217, 185, 120, 92);
+}
+
+QLabel#fieldCaption, QLabel#cardKicker {
+    color: #8FA5B5;
+    background: transparent;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+QLineEdit {
+    min-height: 48px;
+    color: #F4F7F9;
+    background-color: #081522;
+    border: 1px solid #385066;
+    border-radius: 13px;
+    padding: 0 13px;
+    selection-background-color: #8D5265;
+}
+
+QLineEdit:focus {
+    border: 2px solid #A9C7D9;
+    background-color: #0A1927;
+}
+
+QLineEdit#roomCodeEdit {
+    min-height: 58px;
+    color: #F2D69B;
+    font-family: "Roboto Mono", "Consolas", monospace;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 10px;
+}
+
+QLabel#joinError {
+    color: #F1A5B4;
+    background-color: rgba(141, 82, 101, 44);
+    border-radius: 9px;
+    padding: 8px 10px;
+}
+
+QPushButton {
+    min-height: 48px;
+    color: #F4F7F9;
+    background-color: #263D50;
+    border: 1px solid #456278;
+    border-radius: 14px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+QPushButton:hover { background-color: #304C61; }
+QPushButton:pressed { background-color: #1C3041; padding-top: 2px; }
+QPushButton:disabled {
+    color: #617787;
+    background-color: #111F2B;
+    border-color: #253746;
+}
+
+QPushButton#primaryButton, QPushButton#startButton, QPushButton#actionButton {
+    color: #FFF9EF;
+    background-color: #8D5265;
+    border-color: #B26C81;
+}
+
+QPushButton#primaryButton:hover, QPushButton#startButton:hover,
+QPushButton#actionButton:hover { background-color: #A15D72; }
+QPushButton#primaryButton:pressed, QPushButton#startButton:pressed,
+QPushButton#actionButton:pressed { background-color: #754255; }
+QPushButton#actionButton:disabled, QPushButton#startButton:disabled {
+    color: #6B7782;
+    background-color: #182632;
+    border-color: #2B3B49;
+}
+
+QPushButton#readyButton[ready="true"] {
+    color: #D8F3E7;
+    background-color: #285449;
+    border-color: #4D8A78;
+}
+
+QPushButton#ghostButton {
+    color: #A9BBC8;
+    background-color: transparent;
+    border-color: #314657;
+}
+
+QLabel#compactBrand {
+    color: #F4F7F9;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 750;
+    letter-spacing: 2px;
+}
+
+QLabel#connectionBadge {
+    min-height: 32px;
+    color: #8FA5B5;
+    background-color: #101F2D;
+    border-radius: 10px;
+    padding: 0 10px;
+    font-size: 11px;
+}
+
+QLabel#connectionBadge[connected="true"] { color: #8DD6B9; }
+
+QLabel#roomCodeValue {
+    color: #F2D69B;
+    background: transparent;
+    font-family: "Roboto Mono", "Consolas", monospace;
+    font-size: 25px;
+    font-weight: 750;
+    letter-spacing: 4px;
+}
+
+QLabel#roomMetric {
+    color: #DDE8F0;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+QLabel#roomMetricMuted, QLabel#roleDetail, QLabel#sectionHint {
+    color: #8298A8;
+    background: transparent;
+    font-size: 11px;
+}
+
+QLabel#phaseMoon {
+    color: #D9B978;
+    background-color: rgba(8, 17, 28, 110);
+    border: 1px solid rgba(217, 185, 120, 76);
+    border-radius: 27px;
+    font-size: 31px;
+}
+
+QLabel#phaseTitle {
+    color: #F4F7F9;
+    background: transparent;
+    font-size: 19px;
+    font-weight: 750;
+}
+
+QLabel#phasePrompt {
+    color: #B8C8D3;
+    background: transparent;
+    font-size: 13px;
+}
+
+QLabel#roleValue {
+    color: #F2D69B;
+    background: transparent;
+    font-size: 19px;
+    font-weight: 750;
+}
+
+QLabel#sectionTitle {
+    color: #E9F0F4;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+QWidget#playerCard {
+    background-color: #101F2D;
+    border: 1px solid #273D4F;
+    border-radius: 15px;
+}
+
+QWidget#playerCard[occupied="false"] {
+    background-color: rgba(13, 27, 42, 110);
+    border: 1px dashed #263B4C;
+}
+
+QWidget#playerCard[currentPlayer="true"] {
+    border: 2px solid #D9B978;
+    background-color: #16293A;
+}
+
+QWidget#playerCard[actionEnabled="true"] {
+    border: 2px solid #6F96AE;
+    background-color: #173149;
+}
+
+QWidget#playerCard[selected="true"] {
+    border: 2px solid #E3C77F;
+    background-color: #3A3540;
+}
+
+QLabel#avatarImage { background: transparent; border: none; }
+QLabel#seatNumber {
+    color: #778D9D;
+    background: transparent;
+    font-family: "Roboto Mono", "Consolas", monospace;
+    font-size: 10px;
+}
+QLabel#playerName {
+    color: #E6EEF3;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 700;
+}
+QLabel#playerStatus {
+    color: #8095A5;
+    background: transparent;
+    font-size: 10px;
+}
+QLabel#playerStatus[ready="true"] { color: #7DCEAE; }
+
+QTextBrowser#eventFeed, QTextBrowser#resultDetails {
+    color: #C8D6DF;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    selection-background-color: #8D5265;
+    font-size: 12px;
+}
+
+QLabel#resultTitle {
+    color: #F2D69B;
+    background: transparent;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+QLabel#actionHint {
+    color: #A9BBC8;
+    background: transparent;
+    font-size: 12px;
+}
+
+QDialog, QMessageBox, QInputDialog {
+    color: #DDE8F0;
+    background-color: #0D1B2A;
+}
+QDialog QLabel, QMessageBox QLabel, QInputDialog QLabel { background: transparent; }
+QDialog QPushButton, QMessageBox QPushButton, QInputDialog QPushButton {
+    min-width: 96px;
+    min-height: 46px;
+}
+
+QScrollBar:vertical {
+    width: 5px;
+    background: transparent;
+    margin: 3px 0;
+}
+QScrollBar::handle:vertical {
+    min-height: 28px;
+    background-color: rgba(169, 199, 217, 72);
+    border-radius: 2px;
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
