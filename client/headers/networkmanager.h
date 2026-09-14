@@ -12,8 +12,7 @@ public:
     explicit NetworkManager(QObject *parent = nullptr);
     ~NetworkManager() override;
 
-    void connectAndJoin(const QString &host, quint16 port, const QString &roomCode,
-                        const QString &nickname);
+    void connectAndJoin(const QString &roomCode, const QString &nickname);
     void disconnectFromServer();
     void setReady(bool ready);
     void startGame();

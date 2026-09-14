@@ -35,6 +35,7 @@ private:
     bool m_isEmpty;
     bool m_isReady = false;
     bool m_isHost = false;
+    bool m_isCurrentPlayer = false;
     bool m_actionEnabled = false;
     QLabel *lblAvatar;
     QLabel *lblId;

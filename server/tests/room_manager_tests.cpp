@@ -1,4 +1,5 @@
 #include "room_manager.h"
+#include "settlement_identity.h"
 
 #include <cassert>
 #include <iostream>
@@ -57,6 +58,44 @@ int main() {
            JoinStatus::InvalidCode);
     assert(manager.join("0000", "", static_cast<SOCKET>(302)).status ==
            JoinStatus::InvalidName);
+
+    std::cout << "test: doppel settlement identity" << std::endl;
+    std::vector<Player> settlementPlayers(2);
+    settlementPlayers[0].initial_role = "幽灵";
+    settlementPlayers[0].current_role = "幽灵";
+    settlementPlayers[0].doppel_copy_role = "预言家";
+    settlementPlayers[1].initial_role = "平民";
+    settlementPlayers[1].current_role = "平民";
+    assert(settlementRoleName(settlementPlayers[0], settlementPlayers) ==
+           "幽灵-预言家");
+    assert(settlementEffectiveRole(settlementPlayers[0], settlementPlayers) ==
+           "预言家");
+
+    settlementPlayers[0].doppel_copy_role = "强盗";
+    settlementPlayers[0].current_role = "狼人1";
+    settlementPlayers[1].current_role = "幽灵";
+    assert(settlementRoleName(settlementPlayers[0], settlementPlayers) == "狼人1");
+    assert(settlementRoleName(settlementPlayers[1], settlementPlayers) ==
+           "幽灵-强盗");
+    assert(settlementEffectiveRole(settlementPlayers[1], settlementPlayers) ==
+           "强盗");
+
+    settlementPlayers[0].doppel_copy_role = "狼人1";
+    assert(settlementEffectiveRole(settlementPlayers[1], settlementPlayers) ==
+           "狼人1");
+    assert(settlementRoleName(settlementPlayers[1], settlementPlayers) ==
+           "幽灵-狼人1");
+
+    settlementPlayers[0].doppel_copy_role = "皮匠";
+    assert(settlementEffectiveRole(settlementPlayers[1], settlementPlayers) ==
+           "皮匠");
+    assert(settlementRoleName(settlementPlayers[1], settlementPlayers) ==
+           "幽灵-皮匠");
+
+    settlementPlayers[0].doppel_copy_role.clear();
+    assert(settlementRoleName(settlementPlayers[1], settlementPlayers) == "幽灵");
+    assert(settlementEffectiveRole(settlementPlayers[1], settlementPlayers) ==
+           "幽灵");
 
     std::cout << "room manager tests passed\n";
     return 0;

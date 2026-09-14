@@ -6,7 +6,6 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QInputDialog>
-#include <QIntValidator>
 #include <QJsonObject>
 #include <QLabel>
 #include <QLineEdit>
@@ -38,6 +37,24 @@ QLabel *makeLabel(const QString &text, const QString &objectName,
     label->setObjectName(objectName);
     label->setWordWrap(true);
     return label;
+}
+
+QString actionStageTitle(const QString &phase, const QString &step) {
+    if (step == "DOPPEL") return "幽灵行动阶段";
+    if (step == "WEREWOLF") return "狼人行动阶段";
+    if (step == "MINION") return "爪牙行动阶段";
+    if (step == "SEER") return "预言家行动阶段";
+    if (step == "ROBBER") return "强盗行动阶段";
+    if (step == "TROUBLEMAKER") return "捣蛋鬼行动阶段";
+    if (step == "DRUNK") return "酒鬼行动阶段";
+    if (step == "INSOMNIAC") return "失眠者行动阶段";
+    if (step == "REVEALER") return "揭示者行动阶段";
+    if (step == "DISCUSSION") return "白天讨论阶段";
+    if (step == "VOTE") return "投票阶段";
+    if (phase == "ENDING") return "本局结算";
+    if (phase == "NIGHT") return "夜晚行动阶段";
+    if (phase == "DAY") return "白天阶段";
+    return "等待游戏开始";
 }
 
 } // namespace
@@ -88,21 +105,10 @@ QWidget *MainWindow::buildJoinPage() {
     form->setContentsMargins(18, 18, 18, 18);
     form->setSpacing(9);
 
-    form->addWidget(makeLabel("服务器", "fieldCaption", formCard));
-    auto *serverRow = new QHBoxLayout();
-    serverRow->setSpacing(8);
-    m_hostEdit = new QLineEdit("127.0.0.1", formCard);
-    m_hostEdit->setObjectName("hostEdit");
-    m_hostEdit->setPlaceholderText("服务器地址");
-    m_portEdit = new QLineEdit("8888", formCard);
-    m_portEdit->setObjectName("portEdit");
-    m_portEdit->setPlaceholderText("端口");
-    m_portEdit->setMaximumWidth(96);
-    m_portEdit->setValidator(new QIntValidator(1, 65535, m_portEdit));
-    m_portEdit->setInputMethodHints(Qt::ImhDigitsOnly);
-    serverRow->addWidget(m_hostEdit, 1);
-    serverRow->addWidget(m_portEdit);
-    form->addLayout(serverRow);
+    auto *serverDestination = makeLabel("● 官方服务器 · 自动连接",
+                                        "serverDestination", formCard);
+    serverDestination->setAlignment(Qt::AlignCenter);
+    form->addWidget(serverDestination);
 
     form->addWidget(makeLabel("你的昵称", "fieldCaption", formCard));
     m_nameEdit = new QLineEdit(formCard);
@@ -281,7 +287,10 @@ QWidget *MainWindow::buildGamePage() {
     auto *actionDock = makeCard("actionDock", page);
     auto *actionLayout = new QVBoxLayout(actionDock);
     actionLayout->setContentsMargins(12, 10, 12, 12);
-    actionLayout->setSpacing(8);
+    actionLayout->setSpacing(6);
+    m_actionPhaseLabel = makeLabel("等待游戏开始", "actionPhaseLabel", actionDock);
+    m_actionPhaseLabel->setAlignment(Qt::AlignCenter);
+    actionLayout->addWidget(m_actionPhaseLabel);
     m_actionHint = makeLabel("等待其他玩家行动…", "actionHint", actionDock);
     m_actionHint->setAlignment(Qt::AlignCenter);
     actionLayout->addWidget(m_actionHint);
@@ -410,6 +419,7 @@ void MainWindow::setupNetworkConnections() {
     connect(m_network, &NetworkManager::phaseChanged, this,
             [this](const QString &phase, const QString &step, const QString &prompt) {
         clearPendingAction();
+        m_actionPhaseLabel->setText(actionStageTitle(phase, step));
         if (phase == "NIGHT") {
             m_phaseKicker->setText("月相 · " + step);
             m_phaseTitle->setText("夜晚行动阶段");
@@ -443,6 +453,7 @@ void MainWindow::setupNetworkConnections() {
     connect(m_network, &NetworkManager::gameStarted, this, [this] {
         m_gameStarted = true;
         m_resultCard->hide();
+        m_actionPhaseLabel->setText("准备进入夜晚");
         m_phaseKicker->setText("月相 · 入夜");
         m_phaseTitle->setText("游戏开始");
         m_phasePrompt->setText("身份已经分配，请等待夜晚指引");
@@ -459,6 +470,7 @@ void MainWindow::setupNetworkConnections() {
         m_phaseKicker->setText("下一局");
         m_phaseTitle->setText("房间已重新开放");
         m_phasePrompt->setText(message);
+        m_actionPhaseLabel->setText("等待下一局开始");
         clearPendingAction("准备好后可以开始下一局");
         refreshRoomControls();
     });
@@ -497,6 +509,7 @@ void MainWindow::resetToJoinPage() {
     m_players = QJsonArray();
     m_eventFeed->clear();
     m_resultCard->hide();
+    m_actionPhaseLabel->setText("等待游戏开始");
     clearPendingAction();
     for (PlayerAvatarWidget *avatar : std::as_const(m_avatars)) avatar->setEmpty();
     m_joinError->hide();
@@ -506,16 +519,11 @@ void MainWindow::resetToJoinPage() {
 }
 
 void MainWindow::joinRoom() {
-    const QString host = m_hostEdit->text().trimmed();
     const QString name = m_nameEdit->text().trimmed();
     const QString code = m_roomCodeEdit->text();
-    bool portOk = false;
-    const int port = m_portEdit->text().toInt(&portOk);
 
     QString error;
-    if (host.isEmpty()) error = "请输入服务器地址";
-    else if (!portOk || port < 1 || port > 65535) error = "端口必须在 1–65535 之间";
-    else if (name.isEmpty()) error = "请输入你的昵称";
+    if (name.isEmpty()) error = "请输入你的昵称";
     else if (!QRegularExpression("^\\d{4}$").match(code).hasMatch())
         error = "房间码必须是四位数字";
 
@@ -527,7 +535,7 @@ void MainWindow::joinRoom() {
     m_joinError->hide();
     m_joinButton->setEnabled(false);
     m_joinButton->setText("正在进入…");
-    m_network->connectAndJoin(host, static_cast<quint16>(port), code, name);
+    m_network->connectAndJoin(code, name);
 }
 
 void MainWindow::toggleReady() {
@@ -547,6 +555,7 @@ void MainWindow::refreshRoomControls() {
     m_startButton->setEnabled(isHost && !m_gameStarted && m_playerCount >= 7 &&
                               m_readyCount == m_playerCount);
     if (!m_gameStarted) {
+        m_actionPhaseLabel->setText("等待游戏开始");
         m_phaseKicker->setText(isHost ? "房主控制" : "房间等待中");
         m_phaseTitle->setText(m_playerCount < 7 ? "等待更多玩家" :
                               (m_readyCount == m_playerCount ? "全员已准备" : "等待玩家准备"));
@@ -585,6 +594,7 @@ void MainWindow::appendEvent(const QString &title, const QString &message) {
 
 void MainWindow::showResult(const QString &winner, const QJsonArray &identities) {
     clearPendingAction("本局已结束");
+    m_actionPhaseLabel->setText("本局结算");
     m_phaseKicker->setText("终局");
     m_phaseTitle->setText("身份已经公开");
     m_phasePrompt->setText(winner);

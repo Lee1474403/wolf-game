@@ -4,6 +4,7 @@
 #include "game_flow.h"
 #include "game_rules.h"
 #include "room.h"
+#include "settlement_identity.h"
 
 #include <algorithm>
 #include <chrono>
@@ -45,7 +46,8 @@ void announce_vote_result(Room& room) {
 
             // 保留原有平票优先级：皮匠 > 好人 > 狼人。
             const auto priority = [&players](int index) {
-                const std::string& role = players[index].current_role;
+                const std::string role =
+                    settlementEffectiveRole(players[index], players);
                 if (role == "皮匠") return 3;
                 if (is_good_team(role)) return 2;
                 if (is_werewolf(role)) return 1;
@@ -59,7 +61,8 @@ void announce_vote_result(Room& room) {
         }
 
         if (eliminatedIndex != -1) {
-            const std::string& role = players[eliminatedIndex].current_role;
+            const std::string role =
+                settlementEffectiveRole(players[eliminatedIndex], players);
             if (role == "皮匠") {
                 winner = "皮匠阵营胜利";
             } else if (is_werewolf(role)) {
@@ -68,18 +71,21 @@ void announce_vote_result(Room& room) {
                 winner = "狼人阵营胜利";
             }
             consoleResult = "eliminated player " + std::to_string(eliminatedIndex + 1) +
-                            " (" + role + "), " + winner;
+                            " (" + settlementRoleName(players[eliminatedIndex], players) +
+                            ", effective role " + role + "), " + winner;
         } else {
             winner = "狼人阵营胜利";
             consoleResult = "no player eliminated, " + winner;
         }
 
         for (std::size_t i = 0; i < players.size(); ++i) {
+            const std::string displayedCurrentRole =
+                settlementRoleName(players[i], players);
             if (!identities.empty()) identities += ';';
             identities += std::to_string(players[i].player_id) + ',' +
                           escapeProtocolField(players[i].name) + ',' +
                           escapeProtocolField(players[i].initial_role) + ',' +
-                          escapeProtocolField(players[i].current_role) + ',' +
+                          escapeProtocolField(displayedCurrentRole) + ',' +
                           std::to_string(voteCount[i]);
             recipients.push_back(players[i].sock);
         }

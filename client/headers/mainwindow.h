@@ -30,8 +30,6 @@ private:
     QWidget *m_joinPage = nullptr;
     QWidget *m_gamePage = nullptr;
 
-    QLineEdit *m_hostEdit = nullptr;
-    QLineEdit *m_portEdit = nullptr;
     QLineEdit *m_nameEdit = nullptr;
     QLineEdit *m_roomCodeEdit = nullptr;
     QLabel *m_joinError = nullptr;
@@ -46,6 +44,7 @@ private:
     QLabel *m_phaseKicker = nullptr;
     QLabel *m_phaseTitle = nullptr;
     QLabel *m_phasePrompt = nullptr;
+    QLabel *m_actionPhaseLabel = nullptr;
     QLabel *m_actionHint = nullptr;
     QTextBrowser *m_eventFeed = nullptr;
     QFrame *m_resultCard = nullptr;

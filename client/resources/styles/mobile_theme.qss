@@ -43,6 +43,16 @@ QLabel#joinSubtitle, QLabel#joinFootnote {
     font-size: 13px;
 }
 
+QLabel#serverDestination {
+    min-height: 34px;
+    color: #8DD6B9;
+    background-color: rgba(40, 84, 73, 55);
+    border: 1px solid rgba(77, 138, 120, 75);
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
 QFrame#formCard, QFrame#roomCard, QFrame#roleCard, QFrame#seatCard,
 QFrame#eventCard, QFrame#resultCard, QFrame#actionDock {
     background-color: #0D1B2A;
@@ -256,11 +266,20 @@ QLabel#seatNumber {
     font-family: "Roboto Mono", "Consolas", monospace;
     font-size: 10px;
 }
+QLabel#seatNumber[currentPlayer="true"] {
+    color: #D9B978;
+    font-weight: 750;
+}
 QLabel#playerName {
     color: #E6EEF3;
     background: transparent;
     font-size: 12px;
     font-weight: 700;
+}
+QLabel#playerName[currentPlayer="true"] {
+    color: #F2D69B;
+    font-size: 13px;
+    font-weight: 850;
 }
 QLabel#playerStatus {
     color: #8095A5;
@@ -283,6 +302,14 @@ QLabel#resultTitle {
     background: transparent;
     font-size: 21px;
     font-weight: 800;
+}
+
+QLabel#actionPhaseLabel {
+    color: #F2D69B;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
 QLabel#actionHint {

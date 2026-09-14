@@ -99,7 +99,7 @@ qmake ../WerewolfClient.pro CONFIG+=release
 make -j
 ```
 
-Android 使用 Qt Creator 选择 `Android arm64-v8a` Kit 即可。应用已固定竖屏，并在加入页校验昵称、端口和四位数字房间码。
+Android 使用 Qt Creator 选择 `Android arm64-v8a` Kit 即可。应用已固定竖屏，客户端固定连接 `101.201.81.53:8888`，加入页仅校验昵称和四位数字房间码。
 
 ## 可选：容器内构建 Android APK
 

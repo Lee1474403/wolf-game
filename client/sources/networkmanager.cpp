@@ -5,6 +5,13 @@
 #include <QNetworkProxy>
 #include <QUrl>
 
+namespace {
+
+const QString kServerHost = QStringLiteral("101.201.81.53");
+constexpr quint16 kServerPort = 8888;
+
+} // namespace
+
 NetworkManager::NetworkManager(QObject *parent) : QObject(parent), m_socket(new QTcpSocket(this)) {
     m_socket->setProxy(QNetworkProxy::NoProxy);
     connect(m_socket, &QTcpSocket::readyRead, this, &NetworkManager::onReadyRead);
@@ -17,15 +24,14 @@ NetworkManager::~NetworkManager() {
     disconnectFromServer();
 }
 
-void NetworkManager::connectAndJoin(const QString &host, quint16 port,
-                                    const QString &roomCode, const QString &nickname) {
+void NetworkManager::connectAndJoin(const QString &roomCode, const QString &nickname) {
     m_roomCode = roomCode;
     m_nickname = nickname.trimmed();
     m_joined = false;
     if (m_socket->state() != QAbstractSocket::UnconnectedState) {
         m_socket->abort();
     }
-    m_socket->connectToHost(host.trimmed(), port);
+    m_socket->connectToHost(kServerHost, kServerPort);
 }
 
 void NetworkManager::disconnectFromServer() {

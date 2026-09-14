@@ -71,10 +71,13 @@ void PlayerAvatarWidget::setEmpty() {
     m_isEmpty = true;
     m_isReady = false;
     m_isHost = false;
+    m_isCurrentPlayer = false;
     m_actionEnabled = false;
     setProperty("occupied", false);
     setProperty("selected", false);
     setProperty("currentPlayer", false);
+    lblName->setProperty("currentPlayer", false);
+    lblId->setProperty("currentPlayer", false);
     lblName->setText("虚位以待");
     lblName->setToolTip(QString());
     lblStatus->setText("");
@@ -102,7 +105,11 @@ void PlayerAvatarWidget::setSelected(bool selected) {
 }
 
 void PlayerAvatarWidget::setCurrentPlayer(bool currentPlayer) {
+    m_isCurrentPlayer = currentPlayer;
     setProperty("currentPlayer", currentPlayer);
+    lblName->setProperty("currentPlayer", currentPlayer);
+    lblId->setProperty("currentPlayer", currentPlayer);
+    refreshStatus();
     refreshStyle();
 }
 
@@ -124,6 +131,7 @@ void PlayerAvatarWidget::refreshStatus() {
         return;
     }
     QStringList badges;
+    if (m_isCurrentPlayer) badges << "本人";
     if (m_isHost) badges << "房主";
     badges << (m_isReady ? "已准备" : "未准备");
     lblStatus->setText(badges.join(" · "));
@@ -135,6 +143,10 @@ void PlayerAvatarWidget::refreshStatus() {
 void PlayerAvatarWidget::refreshStyle() {
     style()->unpolish(this);
     style()->polish(this);
+    lblId->style()->unpolish(lblId);
+    lblId->style()->polish(lblId);
+    lblName->style()->unpolish(lblName);
+    lblName->style()->polish(lblName);
     update();
 }
 

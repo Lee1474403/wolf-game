@@ -55,7 +55,10 @@ ERROR|<code>|<message>
 ### 结算
 
 ```text
-RESULT|<winner>|<id>,<name>,<initialRole>,<currentRole>,<votes>;<nextPlayer>...
+RESULT|<winner>|<id>,<name>,<initialRole>,<currentRoleDisplay>,<votes>;<nextPlayer>...
 ```
 
 客户端用该消息显示胜利阵营、所有玩家的初始/最终身份和得票数。
+当前持有幽灵牌的玩家会显示为 `幽灵-<复制角色>`，例如 `幽灵-预言家` 或
+`幽灵-强盗`。幽灵牌的有效身份就是复制到的角色，并随该实体牌的夜晚交换一起
+移动；服务器使用这个有效身份完成阵营、狼人和皮匠胜负判定。
