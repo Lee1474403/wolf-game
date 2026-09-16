@@ -23,6 +23,15 @@ wolf_game/
 └── .env.example
 ```
 
+## 界面预览
+
+客户端采用深色月夜主题，并针对 Android 竖屏与触控操作进行了适配。加入页保持输入简单，房间页集中展示玩家席位、准备状态、游戏提示和房主操作。
+
+| 加入房间 | 房间与准备 |
+|:---:|:---:|
+| <img src="docs/images/client-join-room.jpg" alt="输入昵称和四位房间码的加入页面" width="280"> | <img src="docs/images/client-room-lobby.jpg" alt="显示玩家席位、提示和准备操作的房间页面" width="280"> |
+| 输入昵称和四位房间码，自动连接服务器并创建或加入房间。 | 实时查看席位与准备状态；全员准备后由房主开始游戏。 |
+
 ## 一条命令启动服务端
 
 全新 Linux 主机只需安装 Docker 与 Docker Compose：

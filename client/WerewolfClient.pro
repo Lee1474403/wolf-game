@@ -20,7 +20,9 @@ RESOURCES += resources/resources.qrc
 
 DISTFILES += resources/styles/mobile_theme.qss \
              resources/images/moon_forest.svg \
-             resources/images/avatar_villager.svg
+             resources/images/avatar_villager.svg \
+             resources/images/app_icon_master.png \
+             resources/images/app_icon_store_512.png
 
 CONFIG += c++17
 CONFIG += warn_on
